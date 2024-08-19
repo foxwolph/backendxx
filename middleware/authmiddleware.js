@@ -1,27 +1,28 @@
 // middleware/authMiddleware.js
-const jwt = require('jsonwebtoken');
-const user = require('../models/user');
+const jwt = require("jsonwebtoken");
+const user = require("../models/userModel");
 
 // user authentication middleware
 const auth = async (req, res, next) => {
   try {
-    const authHeader = req.header('Authorization');
+    const authHeader = req.header("Authorization");
 
     if (!authHeader) {
-      return res.status(401).json({ message: 'No token, authorization denied' });
+      return res
+        .status(401)
+        .json({ message: "No token, authorization denied" });
     }
 
-    const token = authHeader.replace('Bearer ', '');
+    const token = authHeader.replace("Bearer ", "");
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await user.findById(decoded.id).select('-password');
+    req.user = await user.findById(decoded.id).select("-password");
 
     next();
   } catch (error) {
-    res.status(401).json({ message: 'Token is not valid' });
+    res.status(401).json({ message: "Token is not valid" });
   }
 };
-
 
 // Admin authentication middleware
 const adminAuth = async (req, res, next) => {
@@ -29,7 +30,7 @@ const adminAuth = async (req, res, next) => {
     if (req.user && req.user.isAdmin) {
       next();
     } else {
-      res.status(403).json({ message: 'Admin access denied' });
+      res.status(403).json({ message: "Admin access denied" });
     }
   });
 };
