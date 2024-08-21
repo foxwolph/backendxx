@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
+const newsLetterRoutes = require("./routes/newsLetterRoutes");
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cors());
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/newsletter", newsLetterRoutes);
 
 // Start the server
 

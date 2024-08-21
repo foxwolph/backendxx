@@ -55,9 +55,23 @@ const registerUser = async (req, res) => {
     await newUser.save();
 
     // Generate JWT token
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      {
+        user: {
+          id: newUser._id,
+          firstName: newUser.firstName,
+          lastName: newUser.lastName,
+          email: newUser.email,
+          phoneNumber: newUser.phoneNumber,
+          address: newUser.address,
+          gender: newUser.gender,
+        },
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
     res.status(201).json({ token });
   } catch (error) {
@@ -79,7 +93,9 @@ const loginUser = async (req, res) => {
     // Find user by email
     let existingUser = await User.findOne({ email });
     if (!existingUser) {
-      return res.status(400).json({ message: "No user found with this email address." });
+      return res
+        .status(400)
+        .json({ message: "No user found with this email address." });
     }
 
     // Check if password matches
@@ -89,9 +105,24 @@ const loginUser = async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      {
+        user: {
+          id: existingUser._id,
+          existingUser,
+          firstName: existingUser.firstName,
+          lastName: existingUser.lastName,
+          email: existingUser.email,
+          phoneNumber: existingUser.phoneNumber,
+          address: existingUser.address,
+          gender: existingUser.gender,
+        },
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
     res.json({ token });
   } catch (error) {
