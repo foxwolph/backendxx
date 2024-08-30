@@ -20,7 +20,9 @@ const registerUser = async (req, res) => {
       !lastName ||
       !email ||
       !phoneNumber ||
-      !address ||
+      !address?.street ||
+      !address?.city ||
+      !address?.district ||	
       !gender ||
       !password
     ) {
@@ -73,7 +75,7 @@ const registerUser = async (req, res) => {
       }
     );
 
-    res.status(201).json({ token });
+    res.status(200).json({token});
   } catch (error) {
     console.error("Error during registration:", error);
     res.status(500).json({ message: "Server error" });
@@ -124,7 +126,7 @@ const loginUser = async (req, res) => {
       }
     );
 
-    res.json({ token });
+    res.status(200).json({token});
   } catch (error) {
     console.error("Error during login:", error);
     res.status(500).json({ message: "Server error" });

@@ -7,6 +7,7 @@ require("dotenv").config();
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const newsLetterRoutes = require("./routes/newsLetterRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors());
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/newsletter", newsLetterRoutes);
+app.use("/api/categories", categoryRoutes);
 
 // Start the server
 

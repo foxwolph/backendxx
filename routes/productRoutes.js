@@ -1,30 +1,22 @@
-const express = require('express');
-const Product = require('../models/productModel');
-const { adminAuth } = require('../middleware/authmiddleware'); 
+const express = require("express");
+const Product = require("../models/productModel");
+const { adminAuth } = require("../middleware/authmiddleware");
+
+const {
+  createProduct,
+  getAllProducts,
+  getProductsByCategory,
+} = require("../controllers/productController");
 
 const router = express.Router();
 
-// Create product (admin only)
-router.post('/', adminAuth, async (req, res) => {
-  const { name, description, price, category, quantity_left_in_stock } = req.body;
-
-  try {
-    const product = new Product({ name, description, price, category, quantity_left_in_stock });
-    await product.save();
-    res.status(201).json(product);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
-});
+// Create a new product
+router.route("/create-product").post(createProduct);
 
 // Get all products
-router.get('/', async (req, res) => {
-  try {
-    const products = await Product.find({});
-    res.json(products);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
-});
+router.route("/get-all-products").get(getAllProducts);
+
+// Get all products by category
+router.route("/all-products/:categoryId").get(getProductsByCategory);
 
 module.exports = router;
