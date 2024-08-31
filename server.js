@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const path = require("path");
 
 require("dotenv").config();
 const userRoutes = require("./routes/userRoutes");
@@ -20,6 +21,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/newsletter", newsLetterRoutes);
 app.use("/api/categories", categoryRoutes);
+
+app.use('/data',express.static(path.join(__dirname,'data')));
 
 // Start the server
 
