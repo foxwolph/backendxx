@@ -54,9 +54,10 @@ const registerUser = async (req, res) => {
       password,
       profilePicture,
     }); // Create new user
-    await newUser.save();
+    const saveUser = await newUser.save();
 
-    // Generate JWT token
+    if(saveUser){
+       // Generate JWT token
     const token = jwt.sign(
       {
         user: {
@@ -75,7 +76,12 @@ const registerUser = async (req, res) => {
       }
     );
 
-    res.status(200).json({token});
+    res.status(200).json({token: token, user: saveUser});
+    } else{
+      res.status(400).json({message: "Unable to register user."});
+    }
+
+   
   } catch (error) {
     console.error("Error during registration:", error);
     res.status(500).json({ message: "Server error" });
@@ -126,7 +132,7 @@ const loginUser = async (req, res) => {
       }
     );
 
-    res.status(200).json({token});
+    res.status(200).json({token: token, user: existingUser});
   } catch (error) {
     console.error("Error during login:", error);
     res.status(500).json({ message: "Server error" });
