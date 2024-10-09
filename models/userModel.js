@@ -21,9 +21,9 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     address: {
-      street: { type: String, required: true },
-      city: { type: String, required: true },
-      district: { type: String, required: true },
+      street: { type: String },
+      city: { type: String },
+      district: { type: String },
       postalCode: { type: String },
     },
     gender: {

@@ -8,7 +8,7 @@ const registerUser = async (req, res) => {
     lastName,
     email,
     phoneNumber,
-    address,
+    address = {},
     gender,
     password,
     profilePicture,
@@ -27,7 +27,6 @@ const registerUser = async (req, res) => {
       !password
     ) {
       return res.status(400).json({ message: "Please fill in all fields!" });
-      console.log("Please fill in all fields!");
     }
 
     // Check if user exists
@@ -45,10 +44,10 @@ const registerUser = async (req, res) => {
       email,
       phoneNumber,
       address: {
-        street: address.street,
-        city: address.city,
-        district: address.district,
-        postalCode: address.postalCode,
+        street: address.street || null,
+        city: address.city || null,
+        district: address.district || null,
+        postalCode: address.postalCode || null,
       },
       gender,
       password,
