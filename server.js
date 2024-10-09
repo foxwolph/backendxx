@@ -11,6 +11,7 @@ const newsLetterRoutes = require("./routes/newsLetterRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const emailSenderRoutes = require("./routes/emailSenderRoutes");
 
 const app = express();
 
@@ -25,8 +26,9 @@ app.use("/api/newsletter", newsLetterRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/email", emailSenderRoutes);
 
-app.use('/data',express.static(path.join(__dirname,'data')));
+app.use("/data", express.static(path.join(__dirname, "data")));
 
 // Start the server
 
